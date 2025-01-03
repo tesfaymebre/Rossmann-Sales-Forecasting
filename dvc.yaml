@@ -1,32 +1,21 @@
 stages:
   data_preprocessing:
-    cmd: python3 scripts/data_preprocessing.py --input data/raw/store.csv --output data/preprocessed/store_preprocessed.csv
+    cmd: python scripts/data_preprocessing.py --store data/raw/store.csv --train data/raw/train.csv --output data/preprocessed/store_preprocessed.csv
     deps:
       - scripts/data_preprocessing.py
       - data/raw/store.csv
+      - data/raw/train.csv
     outs:
       - data/preprocessed/store_preprocessed.csv
 
-  model_training:
-    cmd: python scripts/train_model.py --input data/preprocessed/store_preprocessed.csv --output model.pkl
-    deps:
-      - scripts/train_model.py
-      - data/preprocessed/store_preprocessed.csv
-    outs:
-      - model.pkl
-    params:
-      - train.model_params.max_iter
-
-  evaluate:
-    cmd: python scripts/evaluate_model.py --input data/preprocessed/store_preprocessed.csv --model model.pkl --output metrics.json
-    deps:
-      - scripts/evaluate_model.py
-      - model.pkl
-      - data/preprocessed/store_preprocessed.csv
-    metrics:
-      - metrics.json:
-          cache: false
-      - metrics.yaml:
-          cache: false
-    outs:
-      - metrics.json
+  # model_training:
+  #   cmd:
+  #     python scripts/train_model.py --input data/preprocessed/store_preprocessed.csv
+  #     --output model.pkl
+  #   deps:
+  #     - scripts/train_model.py
+  #     - data/preprocessed/store_preprocessed.csv
+  #   outs:
+  #     - model.pkl
+  #   params:
+  #     - train.model_params.max_iter
